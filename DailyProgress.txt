@@ -1,0 +1,10 @@
+24.09.2015 
+1)SOM is used to select #ClusterCentersPerClass=NumberOfAttributes
+2)Random Center Selection Code has been changed to overcome duplicasies 
+  in selection of centers
+3)the code is generic now
+4)iter variable in som.m is still hardcoded to 10000
+
+25.09.15
+1)Random code rectified so that no centers are same. Also if there is only one member in a cluster(the center itself) then also the center is removed.
+2) In K-fold cross validation number of data points 'm' has been made generic

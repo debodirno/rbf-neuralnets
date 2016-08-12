@@ -1,0 +1,5 @@
+Number of SOM outputs    Sigma1   Sigma2
+ 3*4                       62%     36%
+14*4                       33%     86.666%
+14*4                       33%     82.000%    (Normalized SOM weights and Input)
+ 

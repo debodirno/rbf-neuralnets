@@ -1,0 +1,7 @@
+All the below are done using k fold cross validation
+24.09.15
+1) K means clustering : 97.5 %
+2) SOM : 95.5 %
+
+25.09.15
+1) Random center selection : 94.3
