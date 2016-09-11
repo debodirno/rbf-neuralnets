@@ -1,5 +1,5 @@
-%clc;
-%clear all;
+clc;
+clear all;
 accuracy = 0;
 
 addpath('kMeans');
@@ -71,14 +71,14 @@ end
 
 accuracy_epoch2 = accuracy_epoch2 / 10;  % accuracy_epoch2 calculates the average accuracy for the data set
 standard_deviation = std(sd);            % standard deviation for the data set
-conf = conf/10                           % conf is a average confusion matrix for the data set
+conf = conf/10;                          % conf is a average confusion matrix for the data set
 
 
 fprintf('accuracy : %f\n',  accuracy_epoch2 );
 fprintf('standard deviation : %f\n',  standard_deviation );
 
-dlmwrite(['output_' filename num2str(training_type) '_' num2str(noise) '.txt'], conf);
-dlmwrite(['output_' filename num2str(training_type) '_' num2str(noise) '.txt'], ' ', '-append');
-dlmwrite(['output_' filename num2str(training_type) '_' num2str(noise) '.txt'], [accuracy_epoch2 standard_deviation], '-append');
+dlmwrite(['output_' filename num2str(training_type) '_' num2str(noise) '_' datestr(now, 'yyyymmddHHMMSS') '.txt'], conf);
+dlmwrite(['output_' filename num2str(training_type) '_' num2str(noise) '_' datestr(now, 'yyyymmddHHMMSS') '.txt'], ' ', '-append');
+dlmwrite(['output_' filename num2str(training_type) '_' num2str(noise) '_' datestr(now, 'yyyymmddHHMMSS') '.txt'], [accuracy_epoch2 standard_deviation], '-append');
 
 

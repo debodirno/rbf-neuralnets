@@ -166,9 +166,9 @@ function [Centers, betas, Theta, X_activ] = trainRBFN(X_train, Y_train, centersP
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Centers selected my SOM
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-     elseif training_type==3
+    elseif training_type==3
 
-     X_train = X_train + random('norm',0,0.1,size(X_train,1),size(X_train,2));
+    X_train = X_train + random('norm',0,0.1,size(X_train,1),size(X_train,2));
     som;
     Centers = output;
     memberships_c = findClosestCentroids(X_train, Centers);
@@ -184,6 +184,7 @@ function [Centers, betas, Theta, X_activ] = trainRBFN(X_train, Y_train, centersP
         end
         
         % If there were empty clusters...
+
         if (~isempty(toRemove))
             % Remove the centroids of the empty clusters.
             Centers(toRemove, :) = [];
