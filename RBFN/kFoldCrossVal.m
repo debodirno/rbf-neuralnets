@@ -11,7 +11,7 @@ attr_end  = input('Enter the ending column of attributes ');
 class_col = input('Enter the column of target class ');
 number_of_class = input('Enter the number of classes ');
 number_of_attr  = input('Enter the number of attributes ');
-training_type = input('Enter the hidden node selection type 1.K-means , 2. Random Selection , 3. SOM ');
+training_type = input('Enter the hidden node selection type 1.K-means , 2. Random Selection , 3. SOM 4. Noise Induced SOM ');
 noise = input('Enter percentage of noise ');
 
 centersPerCategory = number_of_attr;
@@ -49,7 +49,7 @@ for epoch = 1:10 % make this 5 number of times
     [Centers, betas, Theta, X_activ] = trainRBFN(X, Y , centersPerCategory , true,training_type);       % train the RBF Network
     
     [Theta] = refineRBFN(X, Y, X_activ, Centers, betas, Theta);
-    
+    [Centers, betas] = refineRBFN2(X, Y, X_activ, Centers, betas, Theta);
     batchdata_test = batchdata1(test,:);        % select all items in the test row of batchdata1
     X_test = batchdata_test(:,1 :attr_end);     % select all items in the (1 through attr_end) columns of batchdata_test
     Y_test = batchdata_test(:, class_col);      % select all items in the class_col column of batchdata_test
