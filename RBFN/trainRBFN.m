@@ -54,12 +54,11 @@ function [Centers, betas, Theta, X_activ] = trainRBFN(X_train, Y_train, centersP
 %     
     Centers = [];
     betas = [];    
+    
+    if training_type ==1 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Centers selected using K-means
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
-    
-    if training_type ==1 
     % For each of the categories...
 
     for (c = 1 : numCats)
@@ -160,8 +159,6 @@ function [Centers, betas, Theta, X_activ] = trainRBFN(X_train, Y_train, centersP
         % Reassign the memberships (index values will have changed).
         memberships_c = findClosestCentroids(X_train, Centers);
         betas = [betas; computeRBFBetas(X_train, Centers, memberships_c)];
-    
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Centers selected my SOM

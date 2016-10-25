@@ -13,15 +13,31 @@ number_of_class = input('Enter the number of classes ');
 number_of_attr  = input('Enter the number of attributes ');
 training_type = input('Enter the hidden node selection type 1.K-means , 2. Random Selection , 3. SOM 4. Noise Induced SOM ');
 noise = input('Enter percentage of noise ');
-
+type_of_noise  = input('Enter the choice 1.Additive 2. Multiplicative ');       %type of noise
 centersPerCategory = number_of_attr;
 %batchdata1 = load('iris.csv');
 batchdata1 = load(filename);
-
+%batchdata1(1,1)
 conf = zeros(number_of_class,number_of_class);          % confidence matrix, here 3 x 3 matrix
 % Set 'm' to the nudatamber of data points.
 m = size(batchdata1, 1);    % returns the number of rows in batchdata1, here 150
-
+%-----------------------------------------------------------------------------------------
+% noise addition
+%-----------------------------------------------------------------------------------------
+for i = 1:m     %
+    for j = 1:attr_end
+        if type_of_noise == 1   % choice over additive and multiplicative
+            %Additive noise
+            batchdata1(i, j) = batchdata1(i, j)*(1 + noise);
+        else
+            %Multiplicative noise
+            batchdata1(i, j) = batchdata1(i, j)*(1 + (batchdata1(i, j)*noise)/100);
+        end
+    end
+end
+%-----------------------------------------------------------------------------------------
+%
+%-----------------------------------------------------------------------------------------
 accuracy_epoch2 = 0;
 
 for epoch = 1:10 % make this 5 number of times
