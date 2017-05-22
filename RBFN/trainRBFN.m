@@ -104,7 +104,7 @@ function [Centers, betas, Theta, X_activ] = trainRBFN(X_train, Y_train, centersP
         %    Compute Beta Coefficients
         % ================================
         if (verbose)
-            fprintf('  Category %d betas...\n', c);
+            fprintf('Category %d betas...\n', c);
             if exist('OCTAVE_VERSION') fflush(stdout); end;
         end
 
@@ -114,7 +114,13 @@ function [Centers, betas, Theta, X_activ] = trainRBFN(X_train, Y_train, centersP
         % Add the centroids and their beta values to the network.
         Centers = [Centers; Centroids_c];
         betas = [betas; betas_c];
+         
     end
+    
+    Centers
+        
+    betas
+    
     %end of K-means
     elseif training_type==2
     
@@ -159,11 +165,47 @@ function [Centers, betas, Theta, X_activ] = trainRBFN(X_train, Y_train, centersP
         % Reassign the memberships (index values will have changed).
         memberships_c = findClosestCentroids(X_train, Centers);
         betas = [betas; computeRBFBetas(X_train, Centers, memberships_c)];
+        
+        Centers
+        
+        betas
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    % Centers selected my SOM
+    % Centers selected by SOM
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     elseif training_type==3
+    som;
+    Centers = output;
+    memberships_c = findClosestCentroids(X_train, Centers);
+        % Remove any empty clusters.
+        toRemove = [];
+        
+        % For each of the centroids...
+        for (i = 1 : size(Centers, 1))
+            % If this centroid has no members, mark it for removal.
+            if (sum(memberships_c == i) == 0)        
+                toRemove = [toRemove; i];
+            end
+        end
+        
+        % If there were empty clusters...
+
+        if (~isempty(toRemove))
+            % Remove the centroids of the empty clusters.
+            Centers(toRemove, :) = [];
+        end    
+        % Reassign the memberships (index values will have changed).
+        memberships_c = findClosestCentroids(X_train, Centers);
+        betas = [betas; computeRBFBetas(X_train, Centers, memberships_c)];
+        
+    Centers
+        
+    betas    
+   
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Centers selected by Noise Induced SOM
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    elseif training_type==4
 
     X_train = X_train + random('norm',0,0.1,size(X_train,1),size(X_train,2));
     som;
@@ -189,7 +231,10 @@ function [Centers, betas, Theta, X_activ] = trainRBFN(X_train, Y_train, centersP
         % Reassign the memberships (index values will have changed).
         memberships_c = findClosestCentroids(X_train, Centers);
         betas = [betas; computeRBFBetas(X_train, Centers, memberships_c)];
-    %}
+    
+    Centers
+        
+    betas 
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    end
    % Get the final number of RBF neurons.

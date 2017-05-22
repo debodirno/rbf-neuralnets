@@ -25,6 +25,7 @@ function betas = computeRBFBetas(X, centroids, memberships)
     sigmas = zeros(numRBFNeurons, 1);
     
     % For each cluster...
+    
     for (i = 1 : numRBFNeurons)
         % Select the next cluster centroid.
         center = centroids(i, :);
@@ -32,7 +33,22 @@ function betas = computeRBFBetas(X, centroids, memberships)
         % Select all of the members of this cluster.
         members = X((memberships == i), :);
 
-        % Compute the average L2 distance to all of the members. 
+		%numMembers = size(members, 1);
+                
+        %differences = zeros(numMembers, 1);
+		
+        %for (j = 1 : numMembers)
+			
+            %if(j == 1)
+             %   differences(j) = abs(members(j + 1) - members(j));
+            %elseif(j == numMembers)
+             %   differences(j) = abs(members(j) - members(j - 1)) ^ 2;  
+            %else
+             %   differences(j) = sqrt(abs(members(j) - members(j - 1)) ^ 2 + abs(members(j + 1) - members(j)) ^ 2);
+            %end
+        %end
+			
+		% Compute the average L2 distance to all of the members. 
     
         % Subtract the center vector from each of the member vectors.
         differences = bsxfun(@minus, members, center);
@@ -48,11 +64,17 @@ function betas = computeRBFBetas(X, centroids, memberships)
     end
 
     % Verify no sigmas are 0.
-    if (any(sigmas == 0))
-        error('One of the sigma values is zero!');
-    end
+    % if (any(sigmas == 0))
+    %     sigmas
+    %     error('One of the sigma values is zero!');
+    % end
     
     % Compute the beta values from the sigmas.
     betas = 1 ./ (2 .* sigmas .^ 2);
+    %betas = zeros(numRBFNeurons, 1);
+    
+    %for (i = 1 : numRBFNeurons)
+    %    betas(i) = 1 / (2 * differences(i) ^ 2);
+    %end
     
 end

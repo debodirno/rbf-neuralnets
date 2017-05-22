@@ -8,12 +8,18 @@ addpath('RBFN');
 filename  = input('Enter the input file name ','s');
 %attr_beg  = input('Enter the beginning column of attributes ');
 attr_end  = input('Enter the ending column of attributes ');
-class_col = input('Enter the column of target class ');
+%class_col = input('Enter the column of target class ');
+class_col = attr_end + 1;
 number_of_class = input('Enter the number of classes ');
-number_of_attr  = input('Enter the number of attributes ');
+%number_of_attr  = input('Enter the number of attributes ');
+number_of_attr = attr_end;
 training_type = input('Enter the hidden node selection type 1.K-means , 2. Random Selection , 3. SOM 4. Noise Induced SOM ');
 noise = input('Enter percentage of noise ');
-type_of_noise  = input('Enter the choice 1.Additive 2. Multiplicative ');       %type of noise
+if (noise == 0)
+    type_of_noise = 1;
+else
+    type_of_noise  = input('Enter the choice 1.Additive 2. Multiplicative ');       %type of noise
+end
 centersPerCategory = number_of_attr;
 %batchdata1 = load('iris.csv');
 batchdata1 = load(filename);
@@ -31,7 +37,7 @@ for i = 1:m     %
             batchdata1(i, j) = batchdata1(i, j)*(1 + noise);
         else
             %Multiplicative noise
-            batchdata1(i, j) = batchdata1(i, j)*(1 + (batchdata1(i, j)*noise)/100);
+            batchdata1(i, j) = batchdata1(i, j)*(1 + (batchdata1(i, j)* noise)/100);
         end
     end
 end
@@ -62,10 +68,10 @@ for epoch = 1:10 % make this 5 number of times
     Y = batchdata(:,class_col );   %class_col is next to attr_end
     [X, MU, SIGMA] = zscore(X);    % X -> Z score, MU -> mean, SIGMA -> standard deviation  % X = (x - MU) / SIGMA 
         
-    [Centers, betas, Theta, X_activ] = trainRBFN(X, Y , centersPerCategory , true,training_type);       % train the RBF Network
+    [Centers, betas, Theta, X_activ] = trainRBFN(X, Y , centersPerCategory , true, training_type);       % train the RBF Network
     
-    [Theta] = refineRBFN(X, Y, X_activ, Centers, betas, Theta);
-    [Centers, betas] = refineRBFN2(X, Y, X_activ, Centers, betas, Theta);
+    %[Theta] = refineRBFN(X, Y, X_activ, Centers, betas, Theta);
+    %[Centers, betas] = refineRBFN2(X, Y, X_activ, Centers, betas, Theta);
     batchdata_test = batchdata1(test,:);        % select all items in the test row of batchdata1
     X_test = batchdata_test(:,1 :attr_end);     % select all items in the (1 through attr_end) columns of batchdata_test
     Y_test = batchdata_test(:, class_col);      % select all items in the class_col column of batchdata_test

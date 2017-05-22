@@ -8,7 +8,7 @@
     totalW = centersPerCategory;
     w = rand(size(X_train,2), totalW)-0.5;
     eta0 = 0.9;
-    iter = 500*size(X_train,1);
+    iter = 100*size(X_train,1);
     etaN = eta0;
     tau2 = iter/2;
     [I,J] = ind2sub([1,3], 1:totalW);
